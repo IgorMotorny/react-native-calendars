@@ -22,6 +22,7 @@ class AgendaList extends Component {
 
   static propTypes = {
     ...SectionList.propTypes,
+    disableHeader: PropTypes.bool,
     /** day format in section title. Formatting values: http://arshaw.com/xdate/#Formatting */
     dayFormat: PropTypes.string,
     /** whether to use moment.js for date string formatting 
@@ -134,6 +135,10 @@ class AgendaList extends Component {
   }
 
   renderSectionHeader = ({section: {title}}) => {
+    if (this.props.disableHeader) {
+      return null;
+    }
+
     let sectionTitle = title;
 
     if (this.props.dayFormat) {
