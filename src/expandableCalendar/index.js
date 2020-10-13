@@ -46,6 +46,8 @@ class ExpandableCalendar extends Component {
 
   static propTypes = {
     ...CalendarList.propTypes,
+    /** position of the calendar ('open' or 'closed') */
+    position: PropTypes.oneOf(_.values(POSITIONS)),
     /** the initial position of the calendar ('open' or 'closed') */
     initialPosition: PropTypes.oneOf(_.values(POSITIONS)),
     /** an option to disable the pan gesture and disable the opening and closing of the calendar (initialPosition will persist)*/
@@ -133,6 +135,13 @@ class ExpandableCalendar extends Component {
     if (date !== prevProps.context.date) {
       // date was changed from AgendaList, arrows or scroll
       this.scrollToDate(date);
+    }
+
+    const {position} = this.props;
+    if (position && position !== prevProps.position) { 
+      position === POSITIONS.CLOSED
+        ? this.close()
+        : this.open();
     }
   }
 
@@ -358,6 +367,14 @@ class ExpandableCalendar extends Component {
         this.bounceToPosition(this.closedHeight);
       }
     }, 0);
+  }
+
+  close() {
+    this.bounceToPosition(this.closedHeight);
+  }
+
+  open() {
+    this.bounceToPosition(this.openHeight);
   }
 
   onVisibleMonthsChange = (value) => {
