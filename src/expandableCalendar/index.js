@@ -328,6 +328,9 @@ class ExpandableCalendar extends Component {
   setPosition() {
     const isClosed = this._height === this.closedHeight;
     this.setState({position: isClosed ? POSITIONS.CLOSED : POSITIONS.OPEN});
+    if (this.props.onPositionChange) {
+      this.props.onPositionChange(isClosed ? POSITIONS.CLOSED : POSITIONS.OPEN);
+    }
   }
 
   resetWeekCalendarOpacity(isOpen) {
